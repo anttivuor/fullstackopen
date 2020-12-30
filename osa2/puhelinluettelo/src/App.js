@@ -1,13 +1,14 @@
-import React, { useState } from 'react'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 
 import Filter from './filter'
 import PersonForm from './personForm'
 import Persons from './persons'
 
+const backendUrl = 'http://localhost:3001' // Change if needed
+
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-1231244' }
-  ])
+  const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
@@ -21,6 +22,23 @@ const App = () => {
     setNewName('')
     setNewNumber('')
   }
+
+  const fetchData = () => {
+    axios.get(`${backendUrl}/persons`)
+    .then(res => {
+      if (res.status === 200) { // Data fetched successfully
+        setPersons(res.data)
+      } else {
+        alert('Failed to fetch phonebook data')
+      }
+    })
+    .catch(error => {
+      console.error(error)
+      alert('Failed to fetch phonebook data')
+    })
+  }
+
+  useEffect(fetchData, [])
 
   return (
     <div>
