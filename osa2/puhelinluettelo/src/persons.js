@@ -1,7 +1,21 @@
 import React from 'react'
 
-const Item = ({ name, number }) => <p>{name} {number}</p>
+const Item = ({ name, number, deletePerson }) => (
+    <p>
+        {name} {number}
+        <button onClick={deletePerson}>delete</button>
+    </p>
+)
 
-const Persons = ({ persons }) => persons.map(p => <Item name={p.name} number={p.number} key={p.name} />)
+const Persons = ({ persons, deletePerson }) => (
+    persons.map(p => (
+        <Item
+            name={p.name}
+            number={p.number}
+            deletePerson={() => deletePerson(p.name, p.id)}
+            key={p.name}
+        />
+    ))
+)
 
 export default Persons

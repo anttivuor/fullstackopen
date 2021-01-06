@@ -1,11 +1,9 @@
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 
 import Filter from './filter'
 import PersonForm from './personForm'
 import Persons from './persons'
-
-const backendUrl = 'http://localhost:3001' // Change if needed
+import personService from './services/persons'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -16,21 +14,46 @@ const App = () => {
   const onSubmit = event => {
     event.preventDefault()
 
-    if (persons.find(({ name }) => name === newName) !== undefined) return alert(`${newName} is already added to phonebook`)
+    const existing = persons.find(({ name }) => name === newName)
+    if (existing !== undefined) {
+      if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+        updatePerson(existing, newNumber)
+      }
+    } else {
+      const newPerson = { name: newName, number: newNumber, id: persons[persons.length - 1].id + 1 }
+      personService.create(newPerson)
+      .catch(error => {
+        alert('Couldn\'t save new person to database')
+        console.error(error)
+      })
+      setPersons([...persons, newPerson])
+      setNewName('')
+      setNewNumber('')
+    }
+  }
 
-    setPersons([...persons, { name: newName, number: newNumber }])
-    setNewName('')
-    setNewNumber('')
+  const updatePerson = (person, number) => {
+    const newPerson = { ...person, number }
+    personService.update(person.id, newPerson)
+    .then(res => {
+      const newPersons = persons.map(p => {
+        if (p.id === person.id) return newPerson
+        else return p
+      })
+      setPersons(newPersons)
+      setNewName('')
+      setNewNumber('')
+    })
+    .catch(error => {
+      console.error(error)
+      alert('Failed to update existing person')
+    })
   }
 
   const fetchData = () => {
-    axios.get(`${backendUrl}/persons`)
+    personService.getAll()
     .then(res => {
-      if (res.status === 200) { // Data fetched successfully
-        setPersons(res.data)
-      } else {
-        alert('Failed to fetch phonebook data')
-      }
+        setPersons(res)
     })
     .catch(error => {
       console.error(error)
@@ -39,6 +62,27 @@ const App = () => {
   }
 
   useEffect(fetchData, [])
+
+  const askToDelete = (name, id) => {
+    if (window.confirm(`Do you really want to remove ${name}?`)) {
+      deletePerson(id)
+    }
+  }
+
+  const deletePerson = id => {
+    personService.remove(id)
+    .then(res => {
+      if (res.status === 200) {
+        setPersons(persons.filter(p => p.id !== id))
+      } else {
+        alert('Failed to delete person from database')
+      }
+    })
+    .catch(error => {
+      alert('Failed to delete person from database')
+      console.error(error)
+    })
+  }
 
   return (
     <div>
@@ -56,7 +100,10 @@ const App = () => {
       />
 
       <h2>Numbers</h2>
-      <Persons persons={persons.filter(({ name }) => name.toLowerCase().includes(filter.toLowerCase()))} />
+      <Persons
+        persons={persons.filter(({ name }) => name.toLowerCase().includes(filter.toLowerCase()))}
+        deletePerson={askToDelete}
+      />
     </div>
   )
 
