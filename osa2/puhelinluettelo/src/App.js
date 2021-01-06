@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 import Filter from './filter'
+import Notification from './notification'
 import PersonForm from './personForm'
 import Persons from './persons'
 import personService from './services/persons'
@@ -10,6 +11,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [notification, setNotification] = useState({})
 
   const onSubmit = event => {
     event.preventDefault()
@@ -23,12 +25,14 @@ const App = () => {
       const newPerson = { name: newName, number: newNumber, id: persons[persons.length - 1].id + 1 }
       personService.create(newPerson)
       .catch(error => {
-        alert('Couldn\'t save new person to database')
-        console.error(error)
+        setNotification({ message: `Failed to add ${newPerson.name}`, color: 'red' })
+        setTimeout(() => setNotification({}), 5000)
       })
       setPersons([...persons, newPerson])
       setNewName('')
       setNewNumber('')
+      setNotification({ message: `Added ${newPerson.name}`, color: 'green' })
+      setTimeout(() => setNotification({}), 5000)
     }
   }
 
@@ -43,10 +47,12 @@ const App = () => {
       setPersons(newPersons)
       setNewName('')
       setNewNumber('')
+      setNotification({ message: `Updated ${newPerson.name}`, color: 'green' })
+      setTimeout(() => setNotification({}), 5000)
     })
     .catch(error => {
-      console.error(error)
-      alert('Failed to update existing person')
+      setNotification({ message: `Failed to edit ${newPerson.name}`, color: 'red' })
+      setTimeout(() => setNotification({}), 5000)
     })
   }
 
@@ -56,8 +62,8 @@ const App = () => {
         setPersons(res)
     })
     .catch(error => {
-      console.error(error)
-      alert('Failed to fetch phonebook data')
+      setNotification({ message: 'Failed to fetch data', color: 'red' })
+      setTimeout(() => setNotification({}), 5000)
     })
   }
 
@@ -65,28 +71,28 @@ const App = () => {
 
   const askToDelete = (name, id) => {
     if (window.confirm(`Do you really want to remove ${name}?`)) {
-      deletePerson(id)
+      deletePerson(name, id)
     }
   }
 
-  const deletePerson = id => {
+  const deletePerson = (name, id) => {
     personService.remove(id)
     .then(res => {
-      if (res.status === 200) {
-        setPersons(persons.filter(p => p.id !== id))
-      } else {
-        alert('Failed to delete person from database')
-      }
+      setPersons(persons.filter(p => p.id !== id))
+      setNotification({ message: `Deleted ${name}`, color: 'green' })
+      setTimeout(() => setNotification({}), 5000)
     })
     .catch(error => {
-      alert('Failed to delete person from database')
-      console.error(error)
+      setNotification({ message: `Failed to delete ${name} (information may already be deleted)`, color: 'red' })
+      setTimeout(() => setNotification({}), 5000)
     })
   }
 
   return (
     <div>
       <h2>Phonebook</h2>
+
+      <Notification message={notification.message} color={notification.color} />
 
       <Filter value={filter} onChange={e => setFilter(e.target.value)} />
 
