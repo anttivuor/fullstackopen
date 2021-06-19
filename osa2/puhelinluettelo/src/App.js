@@ -22,10 +22,10 @@ const App = () => {
         updatePerson(existing, newNumber)
       }
     } else {
-      const newPerson = { name: newName, number: newNumber, id: persons[persons.length - 1].id + 1 }
+      const newPerson = { name: newName, number: newNumber }
       personService.create(newPerson)
       .then(res => {
-        setPersons([...persons, newPerson])
+        setPersons([...persons, res])
         setNewName('')
         setNewNumber('')
         setNotification({ message: `Added ${newPerson.name}`, color: 'green' })
@@ -43,7 +43,7 @@ const App = () => {
     personService.update(person.id, newPerson)
     .then(res => {
       const newPersons = persons.map(p => {
-        if (p.id === person.id) return newPerson
+        if (p.id === person.id) return res
         else return p
       })
       setPersons(newPersons)
