@@ -24,51 +24,53 @@ const App = () => {
     } else {
       const newPerson = { name: newName, number: newNumber }
       personService.create(newPerson)
-      .then(res => {
-        console.log('res', res)
-        setPersons([...persons, res])
-        setNewName('')
-        setNewNumber('')
-        setNotification({ message: `Added ${newPerson.name}`, color: 'green' })
-        setTimeout(() => setNotification({}), 5000)
-      })
-      .catch(error => {
-        const message = error.response?.data?.error || error.message
-        setNotification({ message: `Failed to add ${newPerson.name} (${message})`, color: 'red' })
-        setTimeout(() => setNotification({}), 5000)
-      })
+        .then(res => {
+          console.log('res', res)
+          setPersons([...persons, res])
+          setNewName('')
+          setNewNumber('')
+          setNotification({ message: `Added ${newPerson.name}`, color: 'green' })
+          setTimeout(() => setNotification({}), 5000)
+        })
+        .catch(error => {
+          const message = error.response?.data?.error || error.message
+          setNotification({ message: `Failed to add ${newPerson.name} (${message})`, color: 'red' })
+          setTimeout(() => setNotification({}), 5000)
+        })
     }
   }
 
   const updatePerson = (person, number) => {
     const newPerson = { ...person, number }
     personService.update(person.id, newPerson)
-    .then(res => {
-      const newPersons = persons.map(p => {
-        if (p.id === person.id) return res
-        else return p
+      .then(res => {
+        const newPersons = persons.map(p => {
+          if (p.id === person.id) return res
+          else return p
+        })
+        setPersons(newPersons)
+        setNewName('')
+        setNewNumber('')
+        setNotification({ message: `Updated ${newPerson.name}`, color: 'green' })
+        setTimeout(() => setNotification({}), 5000)
       })
-      setPersons(newPersons)
-      setNewName('')
-      setNewNumber('')
-      setNotification({ message: `Updated ${newPerson.name}`, color: 'green' })
-      setTimeout(() => setNotification({}), 5000)
-    })
-    .catch(error => {
-      setNotification({ message: `Failed to edit ${newPerson.name}`, color: 'red' })
-      setTimeout(() => setNotification({}), 5000)
-    })
+      .catch(error => {
+        console.error(error)
+        setNotification({ message: `Failed to edit ${newPerson.name}`, color: 'red' })
+        setTimeout(() => setNotification({}), 5000)
+      })
   }
 
   const fetchData = () => {
     personService.getAll()
-    .then(res => {
+      .then(res => {
         setPersons(res)
-    })
-    .catch(error => {
-      setNotification({ message: 'Failed to fetch data', color: 'red' })
-      setTimeout(() => setNotification({}), 5000)
-    })
+      })
+      .catch(error => {
+        console.error(error)
+        setNotification({ message: 'Failed to fetch data', color: 'red' })
+        setTimeout(() => setNotification({}), 5000)
+      })
   }
 
   useEffect(fetchData, [])
@@ -81,15 +83,16 @@ const App = () => {
 
   const deletePerson = (name, id) => {
     personService.remove(id)
-    .then(res => {
-      setPersons(persons.filter(p => p.id !== id))
-      setNotification({ message: `Deleted ${name}`, color: 'green' })
-      setTimeout(() => setNotification({}), 5000)
-    })
-    .catch(error => {
-      setNotification({ message: `Failed to delete ${name} (information may already be deleted)`, color: 'red' })
-      setTimeout(() => setNotification({}), 5000)
-    })
+      .then(() => {
+        setPersons(persons.filter(p => p.id !== id))
+        setNotification({ message: `Deleted ${name}`, color: 'green' })
+        setTimeout(() => setNotification({}), 5000)
+      })
+      .catch(error => {
+        console.error(error)
+        setNotification({ message: `Failed to delete ${name} (information may already be deleted)`, color: 'red' })
+        setTimeout(() => setNotification({}), 5000)
+      })
   }
 
   return (
