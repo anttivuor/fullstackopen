@@ -24,15 +24,17 @@ const App = () => {
     } else {
       const newPerson = { name: newName, number: newNumber, id: persons[persons.length - 1].id + 1 }
       personService.create(newPerson)
+      .then(res => {
+        setPersons([...persons, newPerson])
+        setNewName('')
+        setNewNumber('')
+        setNotification({ message: `Added ${newPerson.name}`, color: 'green' })
+        setTimeout(() => setNotification({}), 5000)
+      })
       .catch(error => {
         setNotification({ message: `Failed to add ${newPerson.name}`, color: 'red' })
         setTimeout(() => setNotification({}), 5000)
       })
-      setPersons([...persons, newPerson])
-      setNewName('')
-      setNewNumber('')
-      setNotification({ message: `Added ${newPerson.name}`, color: 'green' })
-      setTimeout(() => setNotification({}), 5000)
     }
   }
 
