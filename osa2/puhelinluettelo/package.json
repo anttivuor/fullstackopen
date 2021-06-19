@@ -18,7 +18,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "yarn install && rm -rf build && yarn build && cp -r build ../../../fullstackopen-3",
+    "deploy": "yarn install && rm -rf build && yarn build && rm -rf ../../../fullstackopen-3/build && cp -r build ../../../fullstackopen-3",
     "lint": "eslint ."
   },
   "proxy": "http://localhost:3001",
