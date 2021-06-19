@@ -25,6 +25,7 @@ const App = () => {
       const newPerson = { name: newName, number: newNumber }
       personService.create(newPerson)
       .then(res => {
+        console.log('res', res)
         setPersons([...persons, res])
         setNewName('')
         setNewNumber('')
@@ -32,7 +33,8 @@ const App = () => {
         setTimeout(() => setNotification({}), 5000)
       })
       .catch(error => {
-        setNotification({ message: `Failed to add ${newPerson.name}`, color: 'red' })
+        const message = error.response?.data?.error || error.message
+        setNotification({ message: `Failed to add ${newPerson.name} (${message})`, color: 'red' })
         setTimeout(() => setNotification({}), 5000)
       })
     }
