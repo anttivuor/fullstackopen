@@ -38,7 +38,6 @@ const mostLikes = (blogs) => {
   })
   const maxLikes = _.maxBy(authorLikes, 'likes')
 
-  console.log(authorLikes)
   return {
     author: maxLikes.author,
     likes: maxLikes.likes
