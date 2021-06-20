@@ -50,6 +50,29 @@ test('adding blog should return error 400 if title and/or url is missing', async
   expect(add.statusCode).toBe(400)
 })
 
+test('deleting should work', async () => {
+  const blogs = await api.get('/api/blogs')
+  const idToBeDeleted = blogs.body[0].id
+
+  const remove = await api.delete(`/api/blogs/${idToBeDeleted}`)
+  const response = await api.get('/api/blogs')
+
+  expect(remove.statusCode).toBe(204)
+  expect(response.body).toHaveLength(1)
+})
+
+test('updating should work', async () => {
+  const blogs = await api.get('/api/blogs')
+  const blogToBeUpdated = blogs.body[0]
+
+  blogToBeUpdated.author = 'Testi Testinen'
+
+  await api.put(`/api/blogs/${blogToBeUpdated.id}`).send(blogToBeUpdated)
+  const response = await api.get('/api/blogs')
+
+  expect(response.body).toContainEqual(blogToBeUpdated)
+})
+
 afterAll(() => {
   mongoose.connection.close();
 })
