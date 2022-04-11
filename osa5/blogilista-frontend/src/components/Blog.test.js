@@ -1,10 +1,10 @@
 import '@testing-library/jest-dom/extend-expect';
 
-import {fireEvent, render, screen} from '@testing-library/react';
+import {fireEvent, render} from '@testing-library/react';
 
 import Blog from './Blog';
 import React from 'react';
-import blogService from '../services/blogs'
+import blogService from '../services/blogs';
 
 let likeMockHandler = jest.fn();
 
@@ -38,8 +38,8 @@ describe('<Blog />', () => {
     });
 
     blogService.like = jest.fn().mockImplementation(() => {
-        return Promise.resolve({ success: true });
-    })
+        return Promise.resolve({success: true});
+    });
 
     test('renders content', () => {
         expect(component.container).toHaveTextContent('Example blog title');

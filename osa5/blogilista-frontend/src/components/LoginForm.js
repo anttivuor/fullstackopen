@@ -36,6 +36,7 @@ const LoginForm = ({setUser, showNotification, notification}) => {
                 <div>
                     <label>username</label>
                     <input
+                        id={'username'}
                         name={'username'}
                         placeholder={'username'}
                         type={'text'}
@@ -46,6 +47,7 @@ const LoginForm = ({setUser, showNotification, notification}) => {
                 <div>
                     <label>password</label>
                     <input
+                        id={'password'}
                         name={'password'}
                         placeholder={'password'}
                         type={'password'}
@@ -53,7 +55,7 @@ const LoginForm = ({setUser, showNotification, notification}) => {
                         onChange={(event) => setPassword(event.target.value || '')}
                     />
                 </div>
-                <button type="submit">login</button>
+                <button id={'submit'} type={'submit'}>login</button>
             </form>
         </div>
     );

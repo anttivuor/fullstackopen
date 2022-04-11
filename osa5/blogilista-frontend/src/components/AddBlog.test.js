@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom/extend-expect';
 
-import {fireEvent, render, screen} from '@testing-library/react';
+import {fireEvent, render} from '@testing-library/react';
 
 import AddBlog from './AddBlog';
 import React from 'react';

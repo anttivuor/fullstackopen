@@ -49,9 +49,10 @@ const Blog = ({
     return (
         <div style={styles.container}>
             <div style={styles.titleRow}>
-                <div style={styles.title}>{blog.title}</div>
-                <div>{blog.author}</div>
+                <div style={styles.title} className={'blog_title'}>{blog.title}</div>
+                <div className={'blog_author'}>{blog.author}</div>
                 <input
+                    className={'toggle_blog_details'}
                     type={'button'}
                     value={showDetails ? 'hide' : 'view'}
                     onClick={() => setShowDetails(!showDetails)}
@@ -61,9 +62,10 @@ const Blog = ({
             {showDetails &&
                 <>
                     <div>{blog.url}</div>
-                    <div>
+                    <div className={'blog_likes'}>
                         likes: {blog.likes}
                         <input
+                            className={'like_blog_button'}
                             type={'button'}
                             value={'like'}
                             onClick={() => updateBlogLikes(blog)}
@@ -74,6 +76,7 @@ const Blog = ({
                     {blog.user.id === user.id &&
                         <div>
                             <input
+                                className={'remove_blog_button'}
                                 type={'button'}
                                 value={'remove'}
                                 onClick={() => confirmRemove()}

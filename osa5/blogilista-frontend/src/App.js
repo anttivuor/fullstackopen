@@ -89,7 +89,7 @@ const App = () => {
 
             <UserInfo user={user} setUser={setUser} />
 
-            <Toggable label={'new note'} ref={addBlogRef}>
+            <Toggable label={'new note'} ref={addBlogRef} buttonId={'toggle_blog_form'}>
                 <AddBlog addBlog={addBlog} showNotification={setNotification} hideForm={() => addBlogRef.current.hideForm()} />
             </Toggable>
 

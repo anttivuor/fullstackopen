@@ -31,6 +31,7 @@ const AddBlog = ({addBlog, showNotification, hideForm}) => {
                 <div>
                     <label>title:</label>
                     <input
+                        id={'title'}
                         name={'title'}
                         placeholder={'title'}
                         type={'text'}
@@ -41,6 +42,7 @@ const AddBlog = ({addBlog, showNotification, hideForm}) => {
                 <div>
                     <label>author:</label>
                     <input
+                        id={'author'}
                         name={'author'}
                         placeholder={'author'}
                         type={'text'}
@@ -51,6 +53,7 @@ const AddBlog = ({addBlog, showNotification, hideForm}) => {
                 <div>
                     <label>url:</label>
                     <input
+                        id={'url'}
                         name={'url'}
                         placeholder={'url'}
                         type={'text'}
@@ -58,7 +61,7 @@ const AddBlog = ({addBlog, showNotification, hideForm}) => {
                         onChange={(event) => setUrl(event.target.value || '')}
                     />
                 </div>
-                <button type="submit">create</button>
+                <button id={'create_blog'} type={'submit'}>create</button>
             </form>
         </div>
     );
