@@ -3,7 +3,7 @@ import React from 'react';
 const UserInfo = ({setUser, user}) => {
     const logout = () => {
         setUser(null);
-        window.localStorage.clear('loggedUser');
+        window.localStorage.removeItem('loggedUser');
     };
 
     return (
