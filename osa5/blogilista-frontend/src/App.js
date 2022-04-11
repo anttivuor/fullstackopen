@@ -1,5 +1,6 @@
 import {useEffect, useState} from 'react';
 
+import AddBlog from './components/AddBlog';
 import Blog from './components/Blog';
 import LoginForm from './components/LoginForm';
 import UserInfo from './components/UserInfo';
@@ -24,7 +25,10 @@ const App = () => {
         }
     }, []);
 
-    console.log('user', user);
+    const addBlog = (blog) => {
+        const newBlogs = [...blogs, blog];
+        setBlogs(newBlogs);
+    };
 
     if (!user) {
         return (
@@ -37,6 +41,8 @@ const App = () => {
             <h2>blogs</h2>
 
             <UserInfo user={user} setUser={setUser} />
+
+            <AddBlog addBlog={addBlog} />
 
             {blogs.map(blog =>
                 <Blog key={blog.id} blog={blog} />

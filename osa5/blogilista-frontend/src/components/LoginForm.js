@@ -26,8 +26,10 @@ const LoginForm = ({setUser}) => {
     return (
         <div>
             <h2>Log in to application</h2>
+
             <form onSubmit={handleLogin}>
                 <div>
+                    <label>username</label>
                     <input
                         name={'username'}
                         placeholder={'username'}
@@ -37,6 +39,7 @@ const LoginForm = ({setUser}) => {
                     />
                 </div>
                 <div>
+                    <label>password</label>
                     <input
                         name={'password'}
                         placeholder={'password'}

@@ -1,6 +1,7 @@
 import axios from 'axios';
+import {generateHeaders} from './utils';
 
-const baseUrl = '/api/blogs';
+const baseUrl = 'http://localhost:3003/api/blogs';
 let token = null;
 
 const setToken = newToken => {
@@ -8,11 +9,21 @@ const setToken = newToken => {
 };
 
 const getAll = () => {
-    const request = axios.get(`http://localhost:3003${baseUrl}`);
+    const request = axios.get(baseUrl);
     return request.then(response => response.data);
 };
 
+const create = async (body) => {
+    const request = await axios.post(
+        baseUrl,
+        body,
+        {headers: generateHeaders(token)}
+    );
+    return request.data;
+}
+
 export default {
   getAll,
+  create,
   setToken,
 };
