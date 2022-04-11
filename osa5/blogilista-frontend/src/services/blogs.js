@@ -20,10 +20,20 @@ const create = async (body) => {
         {headers: generateHeaders(token)}
     );
     return request.data;
-}
+};
+
+const like = async (id, body) => {
+    const request = await axios.put(
+        `${baseUrl}/${id}`,
+        body,
+        {headers: generateHeaders(token)},
+    );
+    return request.data;
+};
 
 export default {
   getAll,
   create,
   setToken,
+  like,
 };

@@ -36,6 +36,20 @@ const App = () => {
         }
     }, [notification, setNotification]);
 
+    const updateBlogLikes = (blog) => {
+        const {id, likes} = blog;
+        const newBlogs = blogs.map((b) => {
+            if (b.id === id) {
+                return {
+                    ...b,
+                    likes,
+                };
+            }
+            return b;
+        });
+        setBlogs(newBlogs);
+    }
+
     const addBlog = (blog) => {
         const newBlogs = [...blogs, blog];
         setBlogs(newBlogs);
@@ -60,7 +74,7 @@ const App = () => {
             </Toggable>
 
             {blogs.map(blog =>
-                <Blog key={blog.id} blog={blog} />
+                <Blog key={blog.id} blog={blog} updateBlogLikes={updateBlogLikes} />
             )}
         </div>
     );

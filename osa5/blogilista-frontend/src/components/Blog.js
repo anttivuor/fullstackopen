@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
 
+import blogService from '../services/blogs';
+
 const styles = {
     container: {
         marginTop: 3,
@@ -12,10 +14,21 @@ const styles = {
     },
 };
 
-const Blog = ({blog}) => {
+const Blog = ({blog, updateBlogLikes}) => {
     const [showDetails, setShowDetails] = useState(false);
 
-    console.log(blog);
+    const addLike = async () => {
+        const {id, user, likes, author, title, url} = blog;
+        const body = {
+            user: user.id,
+            likes: likes + 1,
+            author,
+            title,
+            url,
+        };
+        const newBlog = await blogService.like(id, body);
+        updateBlogLikes(newBlog);
+    };
 
     return (
         <div style={styles.container}>
@@ -36,7 +49,7 @@ const Blog = ({blog}) => {
                         <input
                             type={'button'}
                             value={'like'}
-                            onClick={() => console.log('like')}
+                            onClick={() => addLike()}
                             style={styles.button}
                         />
                     </div>
