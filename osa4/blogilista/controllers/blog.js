@@ -54,16 +54,16 @@ blogRouter.delete('/:id', middleware.userExtractor, async (request, response, ne
 
 blogRouter.put('/:id', middleware.userExtractor, async (request, response, next) => {
   const id = request.params.id
-  const user = request.user
+  // const user = request.user
 
   const blog = await Blog.findById(id).populate('user', { id: 1 })
 
   // Doesn't exists at all
   if (!blog) response.status(404).end()
 
-  if (!blog.user || blog.user.id !== user.id) {
-    response.status(401).json({ error: 'you don\' have permission to edit this blog' })
-  }
+  // if (!blog.user || blog.user.id !== user.id) {
+  //   response.status(401).json({ error: 'you don\' have permission to edit this blog' })
+  // }
 
   const body = request.body
 
