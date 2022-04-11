@@ -31,9 +31,18 @@ const like = async (id, body) => {
     return request.data;
 };
 
+const deleteBlog = async (id) => {
+    const request = await axios.delete(
+        `${baseUrl}/${id}`,
+        {headers: generateHeaders(token)},
+    );
+    return request.data;
+}
+
 export default {
   getAll,
   create,
   setToken,
   like,
+  deleteBlog,
 };

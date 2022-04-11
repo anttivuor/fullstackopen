@@ -55,6 +55,11 @@ const App = () => {
         setBlogs(newBlogs);
     };
 
+    const deleteBlog = (id) => {
+        const newBlogs = blogs.filter((b) => b.id !== id);
+        setBlogs(newBlogs);
+    }
+
     const sortedBlogs = useMemo(() => {
         return blogs.sort((a, b) => b.likes - a.likes);
     }, [blogs]);
@@ -78,7 +83,14 @@ const App = () => {
             </Toggable>
 
             {sortedBlogs.map(blog =>
-                <Blog key={blog.id} blog={blog} updateBlogLikes={updateBlogLikes} />
+                <Blog
+                    key={blog.id}
+                    blog={blog}
+                    user={user}
+                    updateBlogLikes={updateBlogLikes}
+                    deleteBlog={deleteBlog}
+                    showNotification={setNotification}
+                />
             )}
         </div>
     );

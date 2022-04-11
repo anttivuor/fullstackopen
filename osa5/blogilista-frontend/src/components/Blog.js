@@ -14,7 +14,13 @@ const styles = {
     },
 };
 
-const Blog = ({blog, updateBlogLikes}) => {
+const Blog = ({
+    blog,
+    user,
+    updateBlogLikes,
+    deleteBlog,
+    showNotification
+}) => {
     const [showDetails, setShowDetails] = useState(false);
 
     const addLike = async () => {
@@ -28,6 +34,21 @@ const Blog = ({blog, updateBlogLikes}) => {
         };
         const newBlog = await blogService.like(id, body);
         updateBlogLikes(newBlog);
+    };
+
+    const confirmRemove = async () => {
+        const result = window.confirm(`Remove blog ${blog.title} by ${blog.author}`);
+        if (result) {
+            blogService.deleteBlog(blog.id)
+            .then(() => {
+                deleteBlog(blog.id);
+                showNotification({type: 'success', text: `Blog ${blog.title} by ${blog.author} removed`});
+            })
+            .catch((error) => {
+                console.error(error);
+                showNotification({type: 'error', text: `Failed to delete blog ${blog.title} by ${blog.author}`});
+            });
+        }
     };
 
     return (
@@ -54,6 +75,15 @@ const Blog = ({blog, updateBlogLikes}) => {
                         />
                     </div>
                     <div>{blog.user?.name}</div>
+                    {blog.user?.id === user.id &&
+                        <div>
+                            <input
+                                type={'button'}
+                                value={'remove'}
+                                onClick={() => confirmRemove()}
+                            />
+                        </div>
+                    }
                 </>
             }
         </div>
