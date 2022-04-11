@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 
+import Notification from './Notification';
 import blogService from '../services/blogs';
 import loginService from '../services/login';
 
-const LoginForm = ({setUser}) => {
+const LoginForm = ({setUser, showNotification, notification}) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
@@ -19,13 +20,16 @@ const LoginForm = ({setUser}) => {
             setPassword('');
         } catch (exception) {
             console.error(exception);
-            alert('Wrong credentials!');
+            console.log('setting notification');
+            showNotification({type: 'error', text: 'wrong username or password'});
         }
     }
 
     return (
         <div>
             <h2>Log in to application</h2>
+
+            <Notification notification={notification} />
 
             <form onSubmit={handleLogin}>
                 <div>

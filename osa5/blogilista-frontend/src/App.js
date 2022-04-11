@@ -3,12 +3,14 @@ import {useEffect, useState} from 'react';
 import AddBlog from './components/AddBlog';
 import Blog from './components/Blog';
 import LoginForm from './components/LoginForm';
+import Notification from './components/Notification';
 import UserInfo from './components/UserInfo';
 import blogService from './services/blogs';
 
 const App = () => {
     const [blogs, setBlogs] = useState([]);
     const [user, setUser] = useState(null);
+    const [notification, setNotification] = useState(null);
 
     useEffect(() => {
         blogService.getAll().then(blogs =>
@@ -25,6 +27,14 @@ const App = () => {
         }
     }, []);
 
+    useEffect(() => {
+        if (notification) {
+            setTimeout(() => {
+                setNotification(null);
+            }, 5000);
+        }
+    }, [notification, setNotification]);
+
     const addBlog = (blog) => {
         const newBlogs = [...blogs, blog];
         setBlogs(newBlogs);
@@ -32,7 +42,7 @@ const App = () => {
 
     if (!user) {
         return (
-            <LoginForm setUser={setUser} />
+            <LoginForm setUser={setUser} showNotification={setNotification} notification={notification} />
         );
     }
 
@@ -40,9 +50,11 @@ const App = () => {
         <div>
             <h2>blogs</h2>
 
+            <Notification notification={notification} />
+
             <UserInfo user={user} setUser={setUser} />
 
-            <AddBlog addBlog={addBlog} />
+            <AddBlog addBlog={addBlog} showNotification={setNotification} />
 
             {blogs.map(blog =>
                 <Blog key={blog.id} blog={blog} />
