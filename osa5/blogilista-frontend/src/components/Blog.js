@@ -41,14 +41,14 @@ const Blog = ({
         const result = window.confirm(`Remove blog ${blog.title} by ${blog.author}`);
         if (result) {
             blogService.deleteBlog(blog.id)
-            .then(() => {
-                deleteBlog(blog.id);
-                showNotification({type: 'success', text: `Blog ${blog.title} by ${blog.author} removed`});
-            })
-            .catch((error) => {
-                console.error(error);
-                showNotification({type: 'error', text: `Failed to delete blog ${blog.title} by ${blog.author}`});
-            });
+                .then(() => {
+                    deleteBlog(blog.id);
+                    showNotification({type: 'success', text: `Blog ${blog.title} by ${blog.author} removed`});
+                })
+                .catch((error) => {
+                    console.error(error);
+                    showNotification({type: 'error', text: `Failed to delete blog ${blog.title} by ${blog.author}`});
+                });
         }
     };
 
@@ -75,8 +75,8 @@ const Blog = ({
                             style={styles.button}
                         />
                     </div>
-                    <div>{blog.user?.name}</div>
-                    {blog.user?.id === user.id &&
+                    <div>{blog.user.name}</div>
+                    {blog.user.id === user.id &&
                         <div>
                             <input
                                 type={'button'}

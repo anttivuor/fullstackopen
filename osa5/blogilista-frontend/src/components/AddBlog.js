@@ -63,7 +63,7 @@ const AddBlog = ({addBlog, showNotification, hideForm}) => {
                 <button type="submit">create</button>
             </form>
         </div>
-    )
+    );
 };
 
 AddBlog.propTypes = {

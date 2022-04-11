@@ -50,7 +50,7 @@ const App = () => {
             return b;
         });
         setBlogs(newBlogs);
-    }
+    };
 
     const addBlog = (blog) => {
         const newBlogs = [...blogs, blog];
@@ -60,7 +60,7 @@ const App = () => {
     const deleteBlog = (id) => {
         const newBlogs = blogs.filter((b) => b.id !== id);
         setBlogs(newBlogs);
-    }
+    };
 
     const sortedBlogs = useMemo(() => {
         return blogs.sort((a, b) => b.likes - a.likes);
@@ -96,6 +96,6 @@ const App = () => {
             )}
         </div>
     );
-}
+};
 
 export default App;

@@ -19,7 +19,7 @@ const styles = {
         borderColor: 'red',
         color: 'red',
     },
-}
+};
 
 const Notification = ({notification = {}}) => {
     const {type = null, text} = notification || {};
@@ -28,7 +28,7 @@ const Notification = ({notification = {}}) => {
         if (type === 'success') return styles.containerSuccess;
         if (type === 'error') return styles.containerError;
         return {};
-    }, [type])
+    }, [type]);
 
     if (!notification) return null;
 

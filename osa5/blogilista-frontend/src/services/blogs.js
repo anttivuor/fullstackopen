@@ -37,12 +37,12 @@ const deleteBlog = async (id) => {
         {headers: generateHeaders(token)},
     );
     return request.data;
-}
+};
 
 export default {
-  getAll,
-  create,
-  setToken,
-  like,
-  deleteBlog,
+    getAll,
+    create,
+    setToken,
+    like,
+    deleteBlog,
 };

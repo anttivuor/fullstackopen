@@ -24,7 +24,7 @@ const LoginForm = ({setUser, showNotification, notification}) => {
             console.log('setting notification');
             showNotification({type: 'error', text: 'wrong username or password'});
         }
-    }
+    };
 
     return (
         <div>
@@ -63,6 +63,6 @@ LoginForm.propTypes = {
     setUser: PropTypes.func.isRequired,
     showNotification: PropTypes.func.isRequired,
     notification: PropTypes.object,
-}
+};
 
 export default LoginForm;

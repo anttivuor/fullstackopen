@@ -31,4 +31,6 @@ Toggable.propTypes = {
     ]).isRequired,
 };
 
+Toggable.displayName = 'Toggable';
+
 export default Toggable;
