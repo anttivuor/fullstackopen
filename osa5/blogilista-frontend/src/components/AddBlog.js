@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 
 import blogService from '../services/blogs';
 
-const AddBlog = ({addBlog, showNotification}) => {
+const AddBlog = ({addBlog, showNotification, setVisible}) => {
     const [title, setTitle] = useState('');
     const [author, setAuthor] = useState('');
     const [url, setUrl] = useState('');
@@ -17,6 +17,7 @@ const AddBlog = ({addBlog, showNotification}) => {
             setAuthor('');
             setUrl('');
             showNotification({type: 'success', text: `a new blog ${blog.title} by ${blog.author} added`});
+            setVisible(false);
         } catch (exception) {
             console.error(exception);
             alert('Failed to add new blog!');
