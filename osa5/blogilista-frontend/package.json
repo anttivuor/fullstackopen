@@ -3,9 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^5.16.1",
-    "@testing-library/react": "^12.1.2",
-    "@testing-library/user-event": "^13.5.0",
     "axios": "^0.25.0",
     "prop-types": "^15.8.1",
     "react": "^17.0.2",
@@ -14,6 +11,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "workspace:reinstall": "rm -rf node_modules && yarn install",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -38,5 +36,13 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:3003"
+  "proxy": "http://localhost:3003",
+  "devDependencies": {
+    "@testing-library/dom": "^8.13.0",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "12.1.2",
+    "@testing-library/user-event": "^14.1.0",
+    "jest": "^27.5.1",
+    "jest-watch-typeahead": "0.6.5"
+  }
 }

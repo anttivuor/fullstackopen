@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 
 import PropTypes from 'prop-types';
-import blogService from '../services/blogs';
 
 const AddBlog = ({addBlog, showNotification, hideForm}) => {
     const [title, setTitle] = useState('');
@@ -12,12 +11,11 @@ const AddBlog = ({addBlog, showNotification, hideForm}) => {
         event.preventDefault();
 
         try {
-            const blog = await blogService.create({title, author, url});
-            addBlog(blog);
+            addBlog({title, author, url});
             setTitle('');
             setAuthor('');
             setUrl('');
-            showNotification({type: 'success', text: `a new blog ${blog.title} by ${blog.author} added`});
+            showNotification({type: 'success', text: `a new blog ${title} by ${author} added`});
             hideForm();
         } catch (exception) {
             console.error(exception);

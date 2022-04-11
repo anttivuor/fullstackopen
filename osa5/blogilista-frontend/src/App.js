@@ -38,13 +38,21 @@ const App = () => {
         }
     }, [notification, setNotification]);
 
-    const updateBlogLikes = (blog) => {
-        const {id, likes} = blog;
+    const updateBlogLikes = async (blog) => {
+        const {id, user, likes, author, title, url} = blog;
+        const body = {
+            user: user.id,
+            likes: likes + 1,
+            author,
+            title,
+            url,
+        };
+        const newBlog = await blogService.like(id, body);
         const newBlogs = blogs.map((b) => {
-            if (b.id === id) {
+            if (b.id === newBlog.id) {
                 return {
                     ...b,
-                    likes,
+                    likes: newBlog.likes,
                 };
             }
             return b;
@@ -52,8 +60,9 @@ const App = () => {
         setBlogs(newBlogs);
     };
 
-    const addBlog = (blog) => {
-        const newBlogs = [...blogs, blog];
+    const addBlog = async (blog) => {
+        const newBlog = await blogService.create(blog);
+        const newBlogs = [...blogs, newBlog];
         setBlogs(newBlogs);
     };
 

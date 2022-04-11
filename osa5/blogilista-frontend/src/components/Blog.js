@@ -10,6 +10,13 @@ const styles = {
         padding: 3,
         border: '1px solid black',
     },
+    titleRow: {
+        display: 'flex',
+        flexDirection: 'row',
+    },
+    title: {
+        marginRight: 5,
+    },
     button: {
         marginLeft: 3,
     },
@@ -23,19 +30,6 @@ const Blog = ({
     showNotification,
 }) => {
     const [showDetails, setShowDetails] = useState(false);
-
-    const addLike = async () => {
-        const {id, user, likes, author, title, url} = blog;
-        const body = {
-            user: user.id,
-            likes: likes + 1,
-            author,
-            title,
-            url,
-        };
-        const newBlog = await blogService.like(id, body);
-        updateBlogLikes(newBlog);
-    };
 
     const confirmRemove = async () => {
         const result = window.confirm(`Remove blog ${blog.title} by ${blog.author}`);
@@ -54,11 +48,12 @@ const Blog = ({
 
     return (
         <div style={styles.container}>
-            <div>
-                {blog.title} {blog.author}
+            <div style={styles.titleRow}>
+                <div style={styles.title}>{blog.title}</div>
+                <div>{blog.author}</div>
                 <input
                     type={'button'}
-                    value={showDetails ? 'view' : 'hide'}
+                    value={showDetails ? 'hide' : 'view'}
                     onClick={() => setShowDetails(!showDetails)}
                     style={styles.button}
                 />
@@ -71,7 +66,7 @@ const Blog = ({
                         <input
                             type={'button'}
                             value={'like'}
-                            onClick={() => addLike()}
+                            onClick={() => updateBlogLikes(blog)}
                             style={styles.button}
                         />
                     </div>
