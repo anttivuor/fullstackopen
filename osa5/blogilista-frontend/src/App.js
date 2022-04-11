@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 
 import AddBlog from './components/AddBlog';
 import Blog from './components/Blog';
@@ -55,6 +55,10 @@ const App = () => {
         setBlogs(newBlogs);
     };
 
+    const sortedBlogs = useMemo(() => {
+        return blogs.sort((a, b) => b.likes - a.likes);
+    }, [blogs]);
+
     if (!user) {
         return (
             <LoginForm setUser={setUser} showNotification={setNotification} notification={notification} />
@@ -73,7 +77,7 @@ const App = () => {
                 <AddBlog addBlog={addBlog} showNotification={setNotification} />
             </Toggable>
 
-            {blogs.map(blog =>
+            {sortedBlogs.map(blog =>
                 <Blog key={blog.id} blog={blog} updateBlogLikes={updateBlogLikes} />
             )}
         </div>
