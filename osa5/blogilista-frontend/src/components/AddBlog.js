@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 
+import PropTypes from 'prop-types';
 import blogService from '../services/blogs';
 
-const AddBlog = ({addBlog, showNotification, setVisible}) => {
+const AddBlog = ({addBlog, showNotification, hideForm}) => {
     const [title, setTitle] = useState('');
     const [author, setAuthor] = useState('');
     const [url, setUrl] = useState('');
@@ -17,7 +18,7 @@ const AddBlog = ({addBlog, showNotification, setVisible}) => {
             setAuthor('');
             setUrl('');
             showNotification({type: 'success', text: `a new blog ${blog.title} by ${blog.author} added`});
-            setVisible(false);
+            hideForm();
         } catch (exception) {
             console.error(exception);
             alert('Failed to add new blog!');
@@ -63,6 +64,12 @@ const AddBlog = ({addBlog, showNotification, setVisible}) => {
             </form>
         </div>
     )
+};
+
+AddBlog.propTypes = {
+    addBlog: PropTypes.func.isRequired,
+    showNotification: PropTypes.func.isRequired,
+    hideForm: PropTypes.func.isRequired,
 };
 
 export default AddBlog;

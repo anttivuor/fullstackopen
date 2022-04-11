@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 
+import PropTypes from 'prop-types';
 import blogService from '../services/blogs';
 
 const styles = {
@@ -19,7 +20,7 @@ const Blog = ({
     user,
     updateBlogLikes,
     deleteBlog,
-    showNotification
+    showNotification,
 }) => {
     const [showDetails, setShowDetails] = useState(false);
 
@@ -88,6 +89,14 @@ const Blog = ({
             }
         </div>
     );
+};
+
+Blog.propTypes = {
+    blog: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
+    updateBlogLikes: PropTypes.func.isRequired,
+    deleteBlog: PropTypes.func.isRequired,
+    showNotification: PropTypes.func.isRequired,
 };
 
 export default Blog;

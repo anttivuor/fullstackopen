@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 
 import AddBlog from './components/AddBlog';
 import Blog from './components/Blog';
@@ -12,6 +12,8 @@ const App = () => {
     const [blogs, setBlogs] = useState([]);
     const [user, setUser] = useState(null);
     const [notification, setNotification] = useState(null);
+
+    const addBlogRef = useRef();
 
     useEffect(() => {
         blogService.getAll().then(blogs =>
@@ -78,8 +80,8 @@ const App = () => {
 
             <UserInfo user={user} setUser={setUser} />
 
-            <Toggable label={'new note'}>
-                <AddBlog addBlog={addBlog} showNotification={setNotification} />
+            <Toggable label={'new note'} ref={addBlogRef}>
+                <AddBlog addBlog={addBlog} showNotification={setNotification} hideForm={() => addBlogRef.current.hideForm()} />
             </Toggable>
 
             {sortedBlogs.map(blog =>

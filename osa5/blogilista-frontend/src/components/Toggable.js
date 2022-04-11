@@ -1,18 +1,19 @@
-import React, {useState} from 'react';
+import React, {forwardRef, useImperativeHandle, useState} from 'react';
 
-const Toggable = ({label, children}) => {
+import PropTypes from 'prop-types';
+
+const Toggable = forwardRef(({label, children}, ref) => {
     const [visible, setVisible] = useState(false);
 
-    const childrenWithToggleProps = React.Children.map(children, (child) => {
-        if (React.isValidElement(child)) {
-            return React.cloneElement(child, {setVisible});
-        }
-        return child;
+    useImperativeHandle(ref, () => {
+        return {
+            hideForm: () => setVisible(false),
+        };
     });
 
     return (
         <div>
-            {visible && childrenWithToggleProps}
+            {visible && children}
             <input
                 type={'button'}
                 onClick={() => setVisible(!visible)}
@@ -20,6 +21,14 @@ const Toggable = ({label, children}) => {
             />
         </div>
     );
+});
+
+Toggable.propTypes = {
+    label: PropTypes.string.isRequired,
+    children: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.node),
+        PropTypes.node,
+    ]).isRequired,
 };
 
 export default Toggable;

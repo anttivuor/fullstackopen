@@ -1,5 +1,7 @@
 import React, {useCallback} from 'react';
 
+import PropTypes from 'prop-types';
+
 const styles = {
     container: {
         border: '2px solid',
@@ -35,6 +37,10 @@ const Notification = ({notification = {}}) => {
             {text}
         </div>
     );
+};
+
+Notification.propTypes = {
+    notification: PropTypes.object,
 };
 
 export default Notification;
