@@ -1,0 +1,1 @@
+export const getSortedAnecdotes = (state) => state.sort((a, b) => b.votes - a.votes);
