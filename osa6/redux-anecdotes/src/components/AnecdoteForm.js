@@ -1,25 +1,29 @@
 import React, {useState} from 'react';
 
-import {addAction} from '../reducers/anecdoteReducer';
+import {add} from '../reducers/anecdoteReducer';
+import {set as setNotification} from '../reducers/notificationReducer';
 import {useDispatch} from 'react-redux';
 
 const AnecdoteForm = () => {
     const dispatch = useDispatch();
     const [input, setInput] = useState('');
 
-    const create = (event) => {
+    const onSubmit = (event) => {
         event.preventDefault();
 
-        if (!!input.trim()) {
-            dispatch(addAction(input));
+        const content = input.trim();
+
+        if (!!content) {
+            dispatch(add(content));
             setInput('');
+            dispatch(setNotification(`You added '${content}'`))
         };
     };
 
     return (
         <div>
             <h2>create new</h2>
-            <form onSubmit={create}>
+            <form onSubmit={onSubmit}>
                 <div>
                     <input value={input} onChange={(event) => setInput(event.target.value)} />
                 </div>
