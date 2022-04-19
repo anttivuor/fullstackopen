@@ -1,7 +1,7 @@
 import React from 'react';
+import {connect} from 'react-redux';
 
 import {getNotification} from '../reducers/selectors';
-import {useSelector} from 'react-redux';
 
 const style = {
     border: 'solid',
@@ -9,9 +9,7 @@ const style = {
     borderWidth: 1,
 };
 
-const Notification = () => {
-    const notification = useSelector(getNotification);
-
+const Notification = ({notification}) => {
     if (!notification) return null;
 
     return (
@@ -21,4 +19,8 @@ const Notification = () => {
     );
 };
 
-export default Notification;
+const mapStateToProps = (state) => ({
+    notification: getNotification(state),
+});
+
+export default connect(mapStateToProps)(Notification);

@@ -15,10 +15,13 @@ const notification = createSlice({
 
 export const {set} = notification.actions;
 
+let timeoutID;
+
 export const setNotification = (text, timeout) => {
     return async dispatch => {
+        clearTimeout(timeoutID);
         dispatch(set(text));
-        setTimeout(() => {
+        timeoutID = setTimeout(() => {
             dispatch(set(''));
         }, timeout * 1000);
     };
