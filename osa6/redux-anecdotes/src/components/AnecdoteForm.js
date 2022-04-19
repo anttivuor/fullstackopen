@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-
-import {add} from '../reducers/anecdoteReducer';
-import {set as setNotification} from '../reducers/notificationReducer';
 import {useDispatch} from 'react-redux';
+
+import {createAnecdote} from '../reducers/anecdoteReducer';
+import {setNotification} from '../reducers/notificationReducer';
 
 const AnecdoteForm = () => {
     const dispatch = useDispatch();
@@ -14,9 +14,9 @@ const AnecdoteForm = () => {
         const content = input.trim();
 
         if (!!content) {
-            dispatch(add(content));
+            dispatch(createAnecdote(content));
             setInput('');
-            dispatch(setNotification(`You added '${content}'`))
+            dispatch(setNotification(`You added '${content}'`, 5));
         };
     };
 
